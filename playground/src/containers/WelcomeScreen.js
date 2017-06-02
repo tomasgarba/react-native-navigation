@@ -33,7 +33,7 @@ class WelcomeScreen extends Component {
       bottomTabs: [
         {
           container: {
-            name: 'navigation.playground.TextScreen',
+            name: 'navigation.playground.OptionsScreen',
             passProps: {
               text: 'This is tab 1',
               myFunction: () => 'Hello from a function!'
@@ -42,7 +42,7 @@ class WelcomeScreen extends Component {
         },
         {
           container: {
-            name: 'navigation.playground.TextScreen',
+            name: 'navigation.playground.OptionsScreen2',
             passProps: {
               text: 'This is tab 2'
             }

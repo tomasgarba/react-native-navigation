@@ -6,6 +6,7 @@ import PushedScreen from './PushedScreen';
 import LifecycleScreen from './LifecycleScreen';
 import ModalScreen from './ModalScreen';
 import OptionsScreen from './OptionsScreen';
+import OptionsScreen2 from './OptionsScreen2';
 
 export function registerContainers() {
   Navigation.registerContainer(`navigation.playground.WelcomeScreen`, () => WelcomeScreen);
@@ -14,4 +15,5 @@ export function registerContainers() {
   Navigation.registerContainer(`navigation.playground.TextScreen`, () => TextScreen);
   Navigation.registerContainer(`navigation.playground.PushedScreen`, () => PushedScreen);
   Navigation.registerContainer(`navigation.playground.OptionsScreen`, () => OptionsScreen);
+  Navigation.registerContainer(`navigation.playground.OptionsScreen2`, () => OptionsScreen2);
 }
