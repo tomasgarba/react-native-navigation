@@ -13,7 +13,9 @@ import com.facebook.react.shell.MainReactPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.bridge.NavigationReactEventEmitter;
 import com.reactnativenavigation.bridge.NavigationReactPackage;
+import com.reactnativenavigation.controllers.NavigationActivity;
 import com.reactnativenavigation.events.EventBus;
+import com.reactnativenavigation.events.JsBundleLoadedEvent;
 import com.reactnativenavigation.events.JsDevReloadEvent;
 
 import java.util.ArrayList;
@@ -26,10 +28,12 @@ public class NavigationReactGateway implements ReactGateway {
     private final ReactNativeHost host;
     private NavigationReactEventEmitter reactEventEmitter;
     private JsDevReloadHandler jsDevReloadHandler;
+    private final NavigationReactInitializer initializer;
 
     public NavigationReactGateway() {
         host = new ReactNativeHostImpl();
         jsDevReloadHandler = new JsDevReloadHandler();
+        initializer = new NavigationReactInitializer(host.getReactInstanceManager());
     }
 
     @Override
@@ -63,16 +67,6 @@ public class NavigationReactGateway implements ReactGateway {
         getReactInstanceManager().onBackPressed();
     }
 
-    public void onDestroyApp() {
-        getReactInstanceManager().onHostDestroy();
-        host.clear();
-    }
-
-    public void onPauseActivity() {
-        getReactInstanceManager().onHostPause();
-        jsDevReloadHandler.onPauseActivity();
-    }
-
     public void onNewIntent(Intent intent) {
         getReactInstanceManager().onNewIntent(intent);
     }
@@ -82,9 +76,26 @@ public class NavigationReactGateway implements ReactGateway {
         return jsDevReloadHandler.onKeyUp(currentFocus, keyCode);
     }
 
-    public void onResumeActivity(Activity activity, DefaultHardwareBackBtnHandler defaultHardwareBackBtnHandler) {
-        getReactInstanceManager().onHostResume(activity, defaultHardwareBackBtnHandler);
+    @Override
+    public void onActivityCreated(NavigationActivity activity) {
+        initializer.onActivityCreated(activity);
+    }
+
+    @Override
+    public void onActivityResumed(NavigationActivity activity, DefaultHardwareBackBtnHandler defaultHardwareBackBtnHandler) {
+        initializer.onActivityResumed(activity);
         jsDevReloadHandler.onResumeActivity();
+    }
+
+    @Override
+    public void onActivityPaused(NavigationActivity activity) {
+        initializer.onActivityPaused(activity);
+        jsDevReloadHandler.onPauseActivity();
+    }
+
+    @Override
+    public void onActivityDestroyed(NavigationActivity activity) {
+        initializer.onActivityDestroyed(activity);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -96,9 +107,10 @@ public class NavigationReactGateway implements ReactGateway {
         return host;
     }
 
-    //TODO temp hack
-    private void onReactContextInitialized() {
-        reactEventEmitter = new NavigationReactEventEmitter(getReactContext());
+    void onReactContextInitialized() {
+        if (reactEventEmitter == null) {
+            reactEventEmitter = new NavigationReactEventEmitter(getReactContext());
+        }
     }
 
     private static class ReactNativeHostImpl extends ReactNativeHost implements ReactInstanceManager.ReactInstanceEventListener {
@@ -152,6 +164,11 @@ public class NavigationReactGateway implements ReactGateway {
                 @Override
                 public void onJsDevReload() {
                     EventBus.instance.post(new JsDevReloadEvent());
+                }
+
+                @Override
+                public void onJSBundleLoadedFromServer() {
+                    EventBus.instance.post(new JsBundleLoadedEvent());
                 }
             }).replace();
         }

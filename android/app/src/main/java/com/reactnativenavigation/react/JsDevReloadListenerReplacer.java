@@ -11,6 +11,7 @@ class JsDevReloadListenerReplacer {
 
     interface Listener {
         void onJsDevReload();
+        void onJSBundleLoadedFromServer();
     }
 
     JsDevReloadListenerReplacer(ReactInstanceManager reactInstanceManager, Listener listener) {
@@ -55,7 +56,7 @@ class JsDevReloadListenerReplacer {
 
         @Override
         public void onJSBundleLoadedFromServer() {
-            listener.onJsDevReload();
+            listener.onJSBundleLoadedFromServer();
             originalReactHandler.onJSBundleLoadedFromServer();
         }
 

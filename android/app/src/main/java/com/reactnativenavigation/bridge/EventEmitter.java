@@ -6,6 +6,7 @@ import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.ReactGateway;
 
 public class EventEmitter {
+    private static final String onAppLaunched = "RNN.appLaunched";
     private ReactGateway reactGateway;
 
     public EventEmitter(ReactGateway reactGateway) {
@@ -51,5 +52,12 @@ public class EventEmitter {
             return;
         }
         reactGateway.getReactEventEmitter().sendEvent(eventId, Arguments.createMap());
+    }
+
+    public void sendAppLaunchedEvent() {
+        if (!NavigationApplication.instance.isReactContextInitialized()) {
+            return;
+        }
+        reactGateway.getReactEventEmitter().sendEvent(onAppLaunched, Arguments.createMap());
     }
 }

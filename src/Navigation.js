@@ -1,13 +1,31 @@
 /*eslint-disable*/
 import React from 'react';
 import {AppRegistry} from 'react-native';
+import {cloneDeep} from 'lodash';
 import platformSpecific from './deprecated/platformSpecificDeprecated';
 import Screen from './Screen';
+import NativeEventsReceiver from './NativeEventsReceiver';
 
 import PropRegistry from './PropRegistry';
 
 const registeredScreens = {};
 const _allNavigatorEventHandlers = {};
+const eventReceiver = new NativeEventsReceiver();
+let singleScreenApp;
+let tabBasedApp;
+let appLaunched;
+eventReceiver.appLaunched(() => {
+  console.log('guyca', 'App launched');
+  appLaunched = true;
+  if (singleScreenApp) {
+    console.log('guyca', 'App launched singleScreenApp');
+    platformSpecific.startSingleScreenApp(cloneDeep(singleScreenApp));
+  }
+  if (tabBasedApp) {
+    console.log('guyca', 'App launched tabBased');
+    platformSpecific.startTabBasedApp(cloneDeep(tabBasedApp));
+  }
+});
 
 function registerScreen(screenID, generator) {
   registeredScreens[screenID] = generator;
@@ -132,11 +150,20 @@ function dismissInAppNotification(params = {}) {
 }
 
 function startTabBasedApp(params) {
-  return platformSpecific.startTabBasedApp(params);
+  console.log('guyca', 'startTabBasedApp appLaunched: ', appLaunched);
+  if (appLaunched) {
+    platformSpecific.startTabBasedApp(params);
+  } else {
+    tabBasedApp = params;
+  }
 }
 
 function startSingleScreenApp(params) {
-  return platformSpecific.startSingleScreenApp(params);
+  if (appLaunched) {
+    platformSpecific.startSingleScreenApp(params);
+  } else {
+    singleScreenApp = params;
+  }
 }
 
 function setEventHandler(navigatorEventID, eventHandler) {

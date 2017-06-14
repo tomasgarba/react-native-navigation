@@ -26,23 +26,23 @@ public class NavigationCommandsHandler {
 
     private static final String ACTIVITY_PARAMS_BUNDLE = "ACTIVITY_PARAMS_BUNDLE";
 
-    static ActivityParams parseActivityParams(Intent intent) {
-        return ActivityParamsParser.parse(intent.getBundleExtra(NavigationCommandsHandler.ACTIVITY_PARAMS_BUNDLE));
-    }
+    public static void startApp(final Bundle params) {
+        final NavigationActivity currentActivity = NavigationActivity.currentActivity;
+        if (currentActivity == null) {
+            return;
+        }
 
-    /**
-     * start a new activity with CLEAR_TASK | NEW_TASK
-     *
-     * @param params ActivityParams as bundle
-     */
-
-    public static void startApp(Bundle params) {
-        Intent intent = new Intent(NavigationApplication.instance, NavigationActivity.class);
-        IntentDataHandler.onStartApp(intent);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(ACTIVITY_PARAMS_BUNDLE, params);
-        intent.putExtra("animationType", params.getString("animationType"));
-        NavigationApplication.instance.startActivity(intent);
+        NavigationApplication.instance.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(NavigationApplication.instance, NavigationActivity.class);
+                IntentDataHandler.onStartApp(intent);
+                intent.putExtra(ACTIVITY_PARAMS_BUNDLE, params);
+                intent.putExtra("animationType", params.getString("animationType"));
+                ActivityParams activityParams = ActivityParamsParser.parse(intent.getBundleExtra(NavigationCommandsHandler.ACTIVITY_PARAMS_BUNDLE));
+                NavigationActivity.currentActivity.startApp(activityParams);
+            }
+        });
     }
 
     public static void push(Bundle screenParams) {

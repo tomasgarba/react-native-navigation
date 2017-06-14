@@ -43,14 +43,6 @@ import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler, Subscriber, PermissionAwareActivity {
 
-    /**
-     * Although we start multiple activities, we make sure to pass Intent.CLEAR_TASK | Intent.NEW_TASK
-     * So that we actually have only 1 instance of the activity running at one time.
-     * We hold the currentActivity (resume->pause) so we know when we need to destroy the javascript context
-     * (when currentActivity is null, ie pause and destroy was called without resume).
-     * This is somewhat weird, and in the future we better use a single activity with changing contentView similar to ReactNative impl.
-     * Along with that, we should handle commands from the bridge using onNewIntent
-     */
     static NavigationActivity currentActivity;
 
     private ActivityParams activityParams;
@@ -58,30 +50,22 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
     private Layout layout;
     @Nullable private PermissionListener mPermissionListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (!NavigationApplication.instance.isReactContextInitialized()) {
-            NavigationApplication.instance.startReactContextOnceInBackgroundAndExecuteJS();
-            return;
-        }
-
-        activityParams = NavigationCommandsHandler.parseActivityParams(getIntent());
-        disableActivityShowAnimationIfNeeded();
+    public void startApp(ActivityParams activityParams) {
+        this.activityParams = activityParams;
         setOrientation();
         createModalController();
         createLayout();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        NavigationApplication.instance.getReactGateway().onActivityCreated(this);
         NavigationApplication.instance.getActivityCallbacks().onActivityCreated(this, savedInstanceState);
     }
 
     private void setOrientation() {
         OrientationHelper.setOrientation(this, AppStyle.appStyle.orientation);
-    }
-
-    private void disableActivityShowAnimationIfNeeded() {
-        if (!activityParams.animateShow) {
-            overridePendingTransition(0, 0);
-        }
     }
 
     private void createModalController() {
@@ -110,13 +94,9 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
     @Override
     protected void onResume() {
         super.onResume();
-        if (isFinishing() || !NavigationApplication.instance.isReactContextInitialized()) {
-            return;
-        }
-
         currentActivity = this;
         IntentDataHandler.onResume(getIntent());
-        getReactGateway().onResumeActivity(this, this);
+        getReactGateway().onActivityResumed(this, this);
         NavigationApplication.instance.getActivityCallbacks().onActivityResumed(this);
         EventBus.instance.register(this);
         IntentDataHandler.onPostResume(getIntent());
@@ -134,7 +114,7 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
         super.onPause();
         currentActivity = null;
         IntentDataHandler.onPause(getIntent());
-        getReactGateway().onPauseActivity();
+        getReactGateway().onActivityPaused(this);
         NavigationApplication.instance.getActivityCallbacks().onActivityPaused(this);
         EventBus.instance.unregister(this);
     }
@@ -147,8 +127,8 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
 
     @Override
     protected void onDestroy() {
+        getReactGateway().onActivityDestroyed(this);
         destroyLayouts();
-        destroyJsIfNeeded();
         NavigationApplication.instance.getActivityCallbacks().onActivityDestroyed(this);
         super.onDestroy();
     }
@@ -160,12 +140,6 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
         if (layout != null) {
             layout.destroy();
             layout = null;
-        }
-    }
-
-    private void destroyJsIfNeeded() {
-        if (currentActivity == null || currentActivity.isFinishing()) {
-            getReactGateway().onDestroyApp();
         }
     }
 
@@ -429,8 +403,10 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
         NavigationApplication.instance.runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                layout.destroy();
-                modalController.destroy();
+                destroyLayouts();
+                if (activityParams != null) {
+                    startApp(activityParams);
+                }
             }
         });
     }
