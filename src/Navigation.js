@@ -14,15 +14,13 @@ const eventReceiver = new NativeEventsReceiver();
 let singleScreenApp;
 let tabBasedApp;
 let appLaunched;
+
 eventReceiver.appLaunched(() => {
-  console.log('guyca', 'App launched');
   appLaunched = true;
   if (singleScreenApp) {
-    console.log('guyca', 'App launched singleScreenApp');
     platformSpecific.startSingleScreenApp(cloneDeep(singleScreenApp));
   }
   if (tabBasedApp) {
-    console.log('guyca', 'App launched tabBased');
     platformSpecific.startTabBasedApp(cloneDeep(tabBasedApp));
   }
 });
