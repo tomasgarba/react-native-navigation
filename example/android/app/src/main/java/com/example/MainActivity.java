@@ -1,7 +1,7 @@
 package com.example;
 
-import com.reactnativenavigation.controllers.SplashActivity;
+import com.reactnativenavigation.controllers.NavigationActivity;
 
-public class MainActivity extends SplashActivity {
+public class MainActivity extends NavigationActivity {
 
 }
