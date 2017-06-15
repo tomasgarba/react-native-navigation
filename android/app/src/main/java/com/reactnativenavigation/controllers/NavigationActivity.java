@@ -3,12 +3,15 @@ package com.reactnativenavigation.controllers;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 
 import com.facebook.react.bridge.Callback;
@@ -57,11 +60,41 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
         createLayout();
     }
 
+    /**
+     * @return xml layout res id
+     */
+    @LayoutRes
+    public int getSplashLayout() {
+        return 0;
+    }
+
+    /**
+     * @return the layout you would like to show while react's js context loads
+     */
+    public View createSplashLayout() {
+        View view = new View(this);
+        view.setBackgroundColor(Color.WHITE);
+        return view;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSplashLayout();
         NavigationApplication.instance.getReactGateway().onActivityCreated(this);
         NavigationApplication.instance.getActivityCallbacks().onActivityCreated(this, savedInstanceState);
+    }
+
+    private void setSplashLayout() {
+        if (activityParams != null) {
+            return;
+        }
+        final int splashLayout = getSplashLayout();
+        if (splashLayout > 0) {
+            setContentView(splashLayout);
+        } else {
+            setContentView(createSplashLayout());
+        }
     }
 
     private void setOrientation() {
