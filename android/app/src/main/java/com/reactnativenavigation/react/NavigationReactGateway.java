@@ -161,6 +161,7 @@ public class NavigationReactGateway implements ReactGateway {
             new JsDevReloadListenerReplacer(manager, new JsDevReloadListenerReplacer.Listener() {
                 @Override
                 public void onJsDevReload() {
+                    NavigationApplication.instance.onReload();
                     EventBus.instance.post(new JsDevReloadEvent());
                 }
 

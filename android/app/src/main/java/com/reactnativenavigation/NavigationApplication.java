@@ -83,6 +83,10 @@ public abstract class NavigationApplication extends Application implements React
         // nothing
     }
 
+    public void onReload() {
+        // nothing
+    }
+
     @Override
     public ReactNativeHost getReactNativeHost() {
         return reactGateway.getReactNativeHost();
