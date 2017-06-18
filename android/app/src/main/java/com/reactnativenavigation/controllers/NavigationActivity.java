@@ -54,6 +54,7 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
     @Nullable private PermissionListener mPermissionListener;
 
     public void startApp(ActivityParams activityParams) {
+        destroyLayouts();
         this.activityParams = activityParams;
         setOrientation();
         createModalController();

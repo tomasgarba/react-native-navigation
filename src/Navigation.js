@@ -11,17 +11,17 @@ import PropRegistry from './PropRegistry';
 const registeredScreens = {};
 const _allNavigatorEventHandlers = {};
 const eventReceiver = new NativeEventsReceiver();
-let singleScreenApp;
-let tabBasedApp;
+export let app = {};
 let appLaunched;
 
 eventReceiver.appLaunched(() => {
+  console.log('guyca', 'appLaunched event handled. appLaunched: [' + appLaunched + "]");
   appLaunched = true;
-  if (singleScreenApp) {
-    platformSpecific.startSingleScreenApp(cloneDeep(singleScreenApp));
+  if (app.type === 'singleScreen') {
+    platformSpecific.startSingleScreenApp(cloneDeep(app.app));
   }
-  if (tabBasedApp) {
-    platformSpecific.startTabBasedApp(cloneDeep(tabBasedApp));
+  if (app.type === 'tabBased') {
+    platformSpecific.startTabBasedApp(cloneDeep(app.app));
   }
 });
 
@@ -152,7 +152,10 @@ function startTabBasedApp(params) {
   if (appLaunched) {
     platformSpecific.startTabBasedApp(params);
   } else {
-    tabBasedApp = params;
+    app = {
+      type: 'tabBased',
+      app: params
+    }
   }
 }
 
@@ -160,7 +163,10 @@ function startSingleScreenApp(params) {
   if (appLaunched) {
     platformSpecific.startSingleScreenApp(params);
   } else {
-    singleScreenApp = params;
+    app = {
+      type: 'singleScreen',
+      app: params
+    }
   }
 }
 
