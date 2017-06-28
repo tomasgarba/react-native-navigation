@@ -3,12 +3,15 @@ const elementByLabel = Utils.elementByLabel;
 
 describe('modal', () => {
   beforeEach(async () => {
-    await device.relaunchApp();
   });
 
   it.only('show modal', async () => {
-    await elementByLabel('Show Modal').tap();
-    await expect(elementByLabel('Modal Screen')).toBeVisible();
+    let i = 0;
+    for (i = 0; i < 100; i++) {
+      await device.relaunchApp();
+      await elementByLabel('Show Modal').tap();
+      await expect(elementByLabel('Modal Screen')).toBeVisible();
+    }
   });
 
   it('dismiss modal', async () => {
