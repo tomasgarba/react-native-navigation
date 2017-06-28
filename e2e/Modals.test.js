@@ -3,6 +3,7 @@ const elementByLabel = Utils.elementByLabel;
 
 describe('modal', () => {
   beforeEach(async () => {
+      await device.relaunchApp();
   });
 
   it.only('show modal', async () => {
