@@ -43,14 +43,47 @@
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
-	// TODO: make sure styles were provided
-	if ([self.nodeData[@"navigationOptions"] objectForKey:@"topBarTextColor"]){
-		UIColor *topBarTextColor = [RCTConvert UIColor:self.nodeData[@"navigationOptions"][@"topBarTextColor"]];
-		[self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: topBarTextColor}];
+	NSDictionary* options = self.nodeData[@"navigationOptions"];
+	// topBarTextColor and topBarTextFontFamily
+	if ([options objectForKey:@"topBarTextColor"]) {
+		UIColor* titleColor = [RCTConvert UIColor:options[@"topBarTextColor"]];
+		NSMutableDictionary* navigationBarTitleTextAttributes = [NSMutableDictionary dictionaryWithDictionary:@{NSForegroundColorAttributeName: titleColor}];
+		if ([options objectForKey:@"topBarTextFontFamily"]) {
+			[navigationBarTitleTextAttributes addEntriesFromDictionary:@{NSFontAttributeName: [UIFont fontWithName:options[@"topBarTextFontFamily"] size:20]}];
+		}
+		self.navigationController.navigationBar.titleTextAttributes = navigationBarTitleTextAttributes;
+	} else if ([options objectForKey:@"topBarTextFontFamily"]) {
+		self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:options[@"topBarTextFontFamily"] size:20]};
 	}
-	if ([self.nodeData[@"navigationOptions"] objectForKey:@"topBarBackgroundColor"]){
-		UIColor *backgroundColor = [RCTConvert UIColor:self.nodeData[@"navigationOptions"][@"topBarBackgroundColor"]];
+	// topBarBackgroundColor
+	if ([options objectForKey:@"topBarBackgroundColor"]) {
+		UIColor* backgroundColor =[RCTConvert UIColor:options[@"topBarBackgroundColor"]];
 		self.navigationController.navigationBar.barTintColor = backgroundColor;
+	}
+	// topBarButtonColor
+	if ([options objectForKey:@"topBarButtonColor"]) {
+		UIColor* buttonColor = [RCTConvert UIColor:options[@"topBarButtonColor"]];
+		self.navigationController.navigationBar.tintColor = buttonColor;
+	}
+	// topBarHidden
+	if ([options objectForKey:@"topBarHidden"]) {
+		if ([options[@"topBarHidden"] boolValue]) {
+			[self.navigationController setNavigationBarHidden:YES animated:YES];
+		} else {
+			[self.navigationController setNavigationBarHidden:NO animated:YES];
+		}
+	};
+	// topBarTranslucent
+	if ([options objectForKey:@"topBarTranslucent"]) {
+		if ([options[@"topBarTranslucent"] boolValue]) {
+			[self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+													  forBarMetrics:UIBarMetricsDefault];
+			self.navigationController.navigationBar.shadowImage = [UIImage new];
+			self.navigationController.navigationBar.translucent = YES;
+			self.navigationController.view.backgroundColor = [UIColor clearColor];
+		} else {
+			self.navigationController.navigationBar.translucent = NO;
+		}
 	}
 }
 
