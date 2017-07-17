@@ -1,6 +1,6 @@
 
 #import "RNNCommandsHandler.h"
-
+#import <React/RCTConvert.h>
 #import "RNNModalManager.h"
 #import "RNNNavigationStackManager.h"
 
@@ -38,16 +38,19 @@
 	UIViewController* vc = [_store findContainerForId:containerId];
 	
 	NSString* title = options[@"title"];
-	NSString* topBarTextColor = options[@"topBarTextColor"];
-	
 	[vc setTitle:title];
 	
-	int rgb = [[topBarTextColor substringFromIndex:1] intValue];
-	UIColor* color = [UIColor colorWithRed:((float)((rgb & 0xFF0000) >> 16))/255.0 \
-									 green:((float)((rgb & 0x00FF00) >>  8))/255.0 \
-									  blue:((float)((rgb & 0x0000FF) >>  0))/255.0 \
-									 alpha:1.0];
-	vc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: color};
+	if ([options objectForKey:@"topBarTextColor"]) {
+		UIColor* titleColor = options[@"topBarTextColor"] ? [RCTConvert UIColor:options[@"topBarTextColor"]] : [UIColor redColor];
+		NSLog(@" the topbar text color is:  %@", titleColor);
+		vc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: titleColor};
+	}
+	if ([options objectForKey:@"topBarBackgroundColor"]) {
+		UIColor* backgroundColor = options[@"topBarBackgroundColor"] ? [RCTConvert UIColor:options[@"topBarBackgroundColor"]] : [UIColor redColor];
+		NSLog(@" the topbar background color is:  %@", backgroundColor);
+		vc.navigationController.navigationBar.barTintColor = backgroundColor;
+	}
+	
 	
 }
 

@@ -1,5 +1,6 @@
 
 #import "RNNRootViewController.h"
+#import <React/RCTConvert.h>
 
 @interface RNNRootViewController()
 @property NSString* containerId;
@@ -21,8 +22,11 @@
 											 selector:@selector(onJsReload)
 												 name:RCTJavaScriptWillStartLoadingNotification
 											   object:nil];
-	
+	// Setting title and title color staticly
 	self.navigationItem.title = node.data[@"navigationOptions"][@"title"];
+//	UIColor *topBarTextColor =  node.data[@"navigationOptions"][@"topBarTextColor"] ? [RCTConvert UIColor:node.data[@"navigationOptions"][@"topBarTextColor"]] : [UIColor redColor];;
+//	NSLog(@"Static title color is %@", topBarTextColor);
+//	[self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: topBarTextColor}];
 	
 	return self;
 }
