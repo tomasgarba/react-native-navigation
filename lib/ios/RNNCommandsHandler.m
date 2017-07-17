@@ -41,16 +41,21 @@
 	[vc setTitle:title];
 	
 	if ([options objectForKey:@"topBarTextColor"]) {
-		UIColor* titleColor = options[@"topBarTextColor"] ? [RCTConvert UIColor:options[@"topBarTextColor"]] : [UIColor redColor];
-		NSLog(@" the topbar text color is:  %@", titleColor);
+		UIColor* titleColor = [RCTConvert UIColor:options[@"topBarTextColor"]];
 		vc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: titleColor};
 	}
 	if ([options objectForKey:@"topBarBackgroundColor"]) {
-		UIColor* backgroundColor = options[@"topBarBackgroundColor"] ? [RCTConvert UIColor:options[@"topBarBackgroundColor"]] : [UIColor redColor];
-		NSLog(@" the topbar background color is:  %@", backgroundColor);
+		UIColor* backgroundColor =[RCTConvert UIColor:options[@"topBarBackgroundColor"]];
 		vc.navigationController.navigationBar.barTintColor = backgroundColor;
 	}
-	
+	if ([options objectForKey:@"topBarButtonColor"]) {
+		UIColor* buttonColor = [RCTConvert UIColor:options[@"topBarButtonColor"]];
+		vc.navigationController.navigationBar.tintColor = buttonColor;
+	}
+	if ([options objectForKey:@"topBarTextFontFamily"]) {
+		UIColor* buttonColor = [RCTConvert UIColor:options[@"topBarTextFontFamily"]];
+		vc.navigationController.navigationBar.tintColor = buttonColor;
+	}
 	
 }
 
