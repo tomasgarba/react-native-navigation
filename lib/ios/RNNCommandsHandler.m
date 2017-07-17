@@ -42,7 +42,13 @@
 	
 	if ([options objectForKey:@"topBarTextColor"]) {
 		UIColor* titleColor = [RCTConvert UIColor:options[@"topBarTextColor"]];
-		vc.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: titleColor};
+		NSMutableDictionary* navigationBarTitleTextAttributes = [NSMutableDictionary dictionaryWithDictionary:@{NSForegroundColorAttributeName: titleColor}];
+		if ([options objectForKey:@"topBarTextFontFamily"]) {
+			[navigationBarTitleTextAttributes addEntriesFromDictionary:@{NSFontAttributeName: [UIFont fontWithName:options[@"topBarTextFontFamily"] size:20]}];
+		}
+		vc.navigationController.navigationBar.titleTextAttributes = navigationBarTitleTextAttributes;
+	} else if ([options objectForKey:@"topBarTextFontFamily"]) {
+		vc.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:options[@"topBarTextFontFamily"] size:20]};
 	}
 	if ([options objectForKey:@"topBarBackgroundColor"]) {
 		UIColor* backgroundColor =[RCTConvert UIColor:options[@"topBarBackgroundColor"]];
@@ -52,10 +58,7 @@
 		UIColor* buttonColor = [RCTConvert UIColor:options[@"topBarButtonColor"]];
 		vc.navigationController.navigationBar.tintColor = buttonColor;
 	}
-	if ([options objectForKey:@"topBarTextFontFamily"]) {
-		UIColor* buttonColor = [RCTConvert UIColor:options[@"topBarTextFontFamily"]];
-		vc.navigationController.navigationBar.tintColor = buttonColor;
-	}
+	
 	
 }
 

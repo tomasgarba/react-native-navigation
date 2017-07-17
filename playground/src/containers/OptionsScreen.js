@@ -33,8 +33,9 @@ class OptionsScreen extends Component {
   onClickDynamicOptions() {
     Navigation.setOptions(this.props.containerId, {
       title: 'Dynamic Title',
-      topBarBackgroundColor: '#00dd22',
-      topBarButtonColor: "yellow"
+      // topBarBackgroundColor: '#00dd22',
+      topBarButtonColor: "yellow",
+      topBarTextFontFamily: 'AmericanTypewriter-CondensedLight'
     });
   }
 }
