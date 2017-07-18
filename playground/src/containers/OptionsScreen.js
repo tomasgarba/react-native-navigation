@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   Text,
+  ScrollView,
   Button
 } from 'react-native';
 
@@ -15,12 +16,14 @@ class OptionsScreen extends Component {
     topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
     topBarButtonColor: "yellow",
     topBarHidden: false,
-    topBarTranslucent: true
+    topBarTranslucent: false
   }
 
   constructor(props) {
     super(props);
     this.onClickDynamicOptions = this.onClickDynamicOptions.bind(this);
+    this.onClickTopBarHidden = this.onClickTopBarHidden.bind(this);
+    this.onClickScrollViewScreen = this.onClickScrollViewScreen.bind(this);
   }
 
   render() {
@@ -28,6 +31,8 @@ class OptionsScreen extends Component {
       <View style={styles.root}>
         <Text style={styles.h1}>{`Options Screen`}</Text>
         <Button title="Dynamic Options" onPress={this.onClickDynamicOptions} />
+        <Button title="setTopBarHidden" onPress={this.onClickTopBarHidden} />
+        <Button title="ScrollView Screen" onPress={this.onClickScrollViewScreen} />
         <Text style={styles.footer}>{`this.props.containerId = ${this.props.containerId}`}</Text>
       </View>
     );
@@ -43,15 +48,26 @@ class OptionsScreen extends Component {
       screenBackgroundColor: "red"
     });
   }
+
+  onClickTopBarHidden() {
+    Navigation.setOptions(this.props.containerId, {
+      topBarHidden: true
+    });
+  }
+
+  onClickScrollViewScreen() {
+    Navigation.push(this.props.containerId, {
+      name: 'navigation.playground.ScrollViewScreen'
+    });
+  }
+  
 }
 
 const styles = {
   root: {
     flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    
-    // backgroundColor: '#f5fcff'
+    alignItems: 'center'
   },
   h1: {
     fontSize: 24,
