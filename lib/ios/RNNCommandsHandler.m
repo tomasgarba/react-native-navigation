@@ -80,6 +80,12 @@
 			vc.navigationController.navigationBar.translucent = NO;
 		}
 	}
+	// screenBackgroundColor
+	if ([options objectForKey:@"screenBackgroundColor"]) {
+		UIColor* screenColor = [RCTConvert UIColor:options[@"screenBackgroundColor"]];
+		vc.view.backgroundColor = screenColor;
+	}
+	
 	
 	
 }

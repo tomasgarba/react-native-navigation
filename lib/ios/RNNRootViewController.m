@@ -85,6 +85,10 @@
 			self.navigationController.navigationBar.translucent = NO;
 		}
 	}
+	if ([options objectForKey:@"screenBackgroundColor"]) {
+		UIColor* screenColor = [RCTConvert UIColor:options[@"screenBackgroundColor"]];
+		self.view.backgroundColor = screenColor;
+	}
 }
 
 -(void)viewDidAppear:(BOOL)animated {

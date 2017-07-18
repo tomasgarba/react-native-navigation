@@ -11,7 +11,7 @@ class WelcomeScreen extends Component {
     this.onClickLifecycleScreen = this.onClickLifecycleScreen.bind(this);
     this.onClickPushOptionsScreen = this.onClickPushOptionsScreen.bind(this);
   }
-
+  
   render() {
     return (
       <View style={styles.root}>

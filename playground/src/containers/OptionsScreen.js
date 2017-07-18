@@ -39,7 +39,8 @@ class OptionsScreen extends Component {
       topBarButtonColor: "yellow",
       topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
       topBarHidden: false,
-      topBarTranslucent: false
+      topBarTranslucent: false,
+      screenBackgroundColor: "red"
     });
   }
 }
@@ -49,7 +50,8 @@ const styles = {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5fcff'
+    
+    // backgroundColor: '#f5fcff'
   },
   h1: {
     fontSize: 24,
