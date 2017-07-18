@@ -102,6 +102,12 @@
 	}
 }
 
+- (BOOL)prefersStatusBarHidden {
+	NSNumber* statusBarHidden = self.nodeData[@"navigationOptions"][@"statusBarHidden"];
+	BOOL statusBarHiddenBool = statusBarHidden ? [statusBarHidden boolValue] : NO;
+	return statusBarHiddenBool;
+}
+
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.eventEmitter sendContainerStart:self.containerId];
