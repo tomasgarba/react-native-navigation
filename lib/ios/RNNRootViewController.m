@@ -85,9 +85,20 @@
 			self.navigationController.navigationBar.translucent = NO;
 		}
 	}
+	// screenBackgroundColor
 	if ([options objectForKey:@"screenBackgroundColor"]) {
 		UIColor* screenColor = [RCTConvert UIColor:options[@"screenBackgroundColor"]];
 		self.view.backgroundColor = screenColor;
+	}
+	// topBarHideOnScroll
+	if ([options objectForKey:@"topBarHideOnScroll"]){
+		NSNumber *topBarHideOnScroll = options[@"topBarHideOnScroll"];
+		BOOL topBarHideOnScrollBool = topBarHideOnScroll ? [topBarHideOnScroll boolValue] : NO;
+		if (topBarHideOnScrollBool) {
+			self.navigationController.hidesBarsOnSwipe = YES;
+		} else {
+		self.navigationController.hidesBarsOnSwipe = NO;
+		}
 	}
 }
 

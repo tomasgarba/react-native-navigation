@@ -85,6 +85,16 @@
 		UIColor* screenColor = [RCTConvert UIColor:options[@"screenBackgroundColor"]];
 		vc.view.backgroundColor = screenColor;
 	}
+	// topBarHideOnScroll
+	if ([options objectForKey:@"topBarHideOnScroll"]){
+		NSNumber *topBarHideOnScroll = options[@"topBarHideOnScroll"];
+		BOOL topBarHideOnScrollBool = topBarHideOnScroll ? [topBarHideOnScroll boolValue] : NO;
+		if (topBarHideOnScrollBool) {
+			vc.navigationController.hidesBarsOnSwipe = YES;
+		} else {
+			vc.navigationController.hidesBarsOnSwipe = NO;
+		}
+	}
 	
 	
 	

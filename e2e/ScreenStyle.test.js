@@ -24,4 +24,23 @@ describe('screen style', () => {
     await elementByLabel('Dynamic Options').tap();
     await expect(element(by.label('Options Screen'))).toBeVisible();
   });
+
+  
+  it('hides topBar when topBarHidden is set to true, and shows it when topBarHidden is set to false', async () => {
+    await elementByLabel('Push Options Screen').tap();
+    await elementByLabel('setTopBarHidden').tap();
+    await expect(element(by.type('UINavigationBar'))).toBeNotVisible()
+    await elementByLabel('Dynamic Options').tap();
+    await expect(element(by.type('UINavigationBar'))).toBeVisible()
+  })
+
+  it('hides topBar on scroll when topBarHideOnScroll is set to true', async () => {
+    await elementByLabel('Push Options Screen').tap();
+    await elementByLabel('ScrollView Screen').tap();
+    await expect(element(by.type('UINavigationBar'))).toBeVisible();
+    await element(by.id('scrollView')).swipe('up', 'fast');
+    await expect(element(by.type('UINavigationBar'))).toBeNotVisible();
+    await element(by.id('scrollView')).swipe('down', 'fast');
+    await expect(element(by.type('UINavigationBar'))).toBeVisible();
+  })
 });
