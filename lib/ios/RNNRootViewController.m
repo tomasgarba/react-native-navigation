@@ -1,6 +1,7 @@
 
 #import "RNNRootViewController.h"
 #import <React/RCTConvert.h>
+#import "RNNNavigationController.h"
 
 @interface RNNRootViewController ()
 
@@ -29,7 +30,6 @@
 											   object:nil];
 	
 	self.navigationItem.title = node.data[@"navigationOptions"][@"title"];
-	
 	
 	return self;
 }
@@ -100,8 +100,27 @@
 		self.navigationController.hidesBarsOnSwipe = NO;
 		}
 	}
+	
+	
+	
+	
+	// statusBarColorScheme
+	
+	
+	
+	
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+	if ([self.nodeData[@"navigationOptions"] objectForKey:@"statusBarStyle"]) {
+		NSString* statusBarStyle = self.nodeData[@"navigationOptions"][@"statusBarStyle"];
+		[((RNNNavigationController*)[self navigationController]) setStatusBarStyle:statusBarStyle];
+	}
+	[self setNeedsStatusBarAppearanceUpdate];
+	[super viewWillAppear:animated];
+}
+
+// statusBarHidden
 - (BOOL)prefersStatusBarHidden {
 	NSNumber* statusBarHidden = self.nodeData[@"navigationOptions"][@"statusBarHidden"];
 	BOOL statusBarHiddenBool = statusBarHidden ? [statusBarHidden boolValue] : NO;
@@ -111,6 +130,7 @@
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.eventEmitter sendContainerStart:self.containerId];
+	
 }
 
 -(void)viewDidDisappear:(BOOL)animated {

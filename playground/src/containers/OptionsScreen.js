@@ -16,7 +16,7 @@ class OptionsScreen extends Component {
     topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
     topBarButtonColor: "yellow",
     topBarHidden: false,
-    topBarTranslucent: false
+    statusBarStyle: 'light'
   }
 
   constructor(props) {
@@ -45,7 +45,9 @@ class OptionsScreen extends Component {
       topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
       topBarHidden: false,
       topBarTranslucent: false,
-      screenBackgroundColor: "red"
+      screenBackgroundColor: "red",
+      topBarBlur: true,
+      statusBarStyle: 'dark'
     });
   }
 

@@ -3,6 +3,7 @@
 #import <React/RCTConvert.h>
 #import "RNNModalManager.h"
 #import "RNNNavigationStackManager.h"
+#import "RNNNavigationController.h"
 
 @implementation RNNCommandsHandler {
 	RNNControllerFactory *_controllerFactory;
@@ -95,8 +96,12 @@
 			vc.navigationController.hidesBarsOnSwipe = NO;
 		}
 	}
-	
-	
+	//statusBarStyle
+	if ([options objectForKey:@"statusBarStyle"]) {
+		NSString* statusBarStyle = options[@"statusBarStyle"];
+		[((RNNNavigationController*)[vc navigationController]) setStatusBarStyle:statusBarStyle];
+	}
+	[vc setNeedsStatusBarAppearanceUpdate];
 	
 }
 

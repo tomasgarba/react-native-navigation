@@ -16,8 +16,9 @@ class ScrollViewScreen extends Component {
     topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
     topBarButtonColor: "yellow",
     topBarHidden: false,
-    topBarTranslucent: false,
-    topBarHideOnScroll: true
+    topBarHideOnScroll: false,
+    statusBarStyle: 'dark'
+    
   }
 
   constructor(props) {
@@ -43,6 +44,7 @@ const styles = {
   },
   h1: {
     fontSize: 24,
+    color: 'red',
     textAlign: 'center',
     margin: 10
   },
