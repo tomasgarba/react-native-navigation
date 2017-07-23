@@ -4,6 +4,7 @@
 #import "RNNRootViewController.h"
 #import "RNNSideMenuController.h"
 #import "RNNSideMenuChildVC.h"
+#import "RNNNavigationController.h"
 
 
 @implementation RNNControllerFactory {
@@ -79,7 +80,7 @@
 }
 
 - (UINavigationController*)createContainerStack:(RNNLayoutNode*)node {
-	UINavigationController* vc = [[UINavigationController alloc] init];
+	UINavigationController* vc = [[RNNNavigationController alloc] init];
 	
 	NSMutableArray* controllers = [NSMutableArray new];
 	for (NSDictionary* child in node.children) {
