@@ -14,9 +14,10 @@ class OptionsScreen extends Component {
   static navigationOptions = {
     title: 'Static Title',
     topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
-    topBarButtonColor: "yellow",
     topBarHidden: false,
-    topBarTextColor: '00ff55',
+    topBarTextColor: '#00ff55',
+    topBarButtonColor: "green",
+    topBarBackgroundColor: "yellow",
     statusBarStyle: 'light'
   }
 

@@ -45,7 +45,6 @@
 	NSLog(@"-------options:--------- %@", options);
 	if ([options objectForKey:@"topBarTextColor"]) {
 		UIColor* titleColor = [RCTConvert UIColor:options[@"topBarTextColor"]];
-		NSLog(@"-------titlecolor:--------- %@", titleColor);
 		NSMutableDictionary* navigationBarTitleTextAttributes = [NSMutableDictionary dictionaryWithDictionary:@{NSForegroundColorAttributeName: titleColor}];
 		if ([options objectForKey:@"topBarTextFontFamily"]) {
 			[navigationBarTitleTextAttributes addEntriesFromDictionary:@{NSFontAttributeName: [UIFont fontWithName:options[@"topBarTextFontFamily"] size:20]}];
@@ -63,6 +62,7 @@
 	if ([options objectForKey:@"topBarButtonColor"]) {
 		UIColor* buttonColor = [RCTConvert UIColor:options[@"topBarButtonColor"]];
 		self.navigationController.navigationBar.tintColor = buttonColor;
+//		NSLog(@"-------buttontintcolor:--------- %@", self.navigationController.navigationBar.tintColor);
 	}
 	
 	if ([options objectForKey:@"topBarHidden"]) {
@@ -99,26 +99,32 @@
 -(void)viewDidLoad
 {
 	[super viewDidLoad];
+	
+	
+	
+	
+}
+
+-(void)viewWillAppear:(BOOL)animated{
 	NSDictionary* options = self.nodeData[@"navigationOptions"];
 	[self topBarStyles:options];
-	
+	if ([options objectForKey:@"statusBarStyle"]) {
+		NSString* statusBarStyle = options[@"statusBarStyle"];
+		[((RNNNavigationController*)[self navigationController]) setStatusBarStyle:statusBarStyle];
+	}
 	// screenBackgroundColor
 	if ([options objectForKey:@"screenBackgroundColor"]) {
 		UIColor* screenColor = [RCTConvert UIColor:options[@"screenBackgroundColor"]];
 		self.view.backgroundColor = screenColor;
 	}
-}
-
--(void)viewWillAppear:(BOOL)animated{
-	if ([self.nodeData[@"navigationOptions"] objectForKey:@"statusBarStyle"]) {
-		NSString* statusBarStyle = self.nodeData[@"navigationOptions"][@"statusBarStyle"];
-		[((RNNNavigationController*)[self navigationController]) setStatusBarStyle:statusBarStyle];
-	}
 	[self setNeedsStatusBarAppearanceUpdate];
 	[super viewWillAppear:animated];
+	NSLog(@"-_________________ I APPEARED ________ %@", self.containerId);
+	
+	
 }
 
-// statusBarHidden
+
 - (BOOL)prefersStatusBarHidden {
 	NSNumber* statusBarHidden = self.nodeData[@"navigationOptions"][@"statusBarHidden"];
 	BOOL statusBarHiddenBool = statusBarHidden ? [statusBarHidden boolValue] : NO;
