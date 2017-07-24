@@ -16,6 +16,7 @@ class OptionsScreen extends Component {
     topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
     topBarButtonColor: "yellow",
     topBarHidden: false,
+    topBarTextColor: '00ff55',
     statusBarStyle: 'light'
   }
 

@@ -16,7 +16,7 @@ class ScrollViewScreen extends Component {
     topBarTextFontFamily: 'AmericanTypewriter-CondensedLight',
     topBarButtonColor: "yellow",
     topBarHidden: false,
-    topBarHideOnScroll: false,
+    topBarHideOnScroll: true,
     statusBarStyle: 'dark'
     
   }
