@@ -12,6 +12,7 @@
 @property (nonatomic, strong) NSDictionary* nodeData;
 @property (nonatomic, strong) id<RNNRootViewCreator> creator;
 
+-(void)topBarStyles:(NSDictionary*)options;
 @end
 
 @implementation RNNRootViewController
@@ -40,13 +41,11 @@
 	self.creator = nil;
 }
 
--(void)viewDidLoad
-{
-	[super viewDidLoad];
-	NSDictionary* options = self.nodeData[@"navigationOptions"];
-	// topBarTextColor and topBarTextFontFamily
+-(void)topBarStyles:(NSDictionary*)options {
+	NSLog(@"-------options:--------- %@", options);
 	if ([options objectForKey:@"topBarTextColor"]) {
 		UIColor* titleColor = [RCTConvert UIColor:options[@"topBarTextColor"]];
+		NSLog(@"-------titlecolor:--------- %@", titleColor);
 		NSMutableDictionary* navigationBarTitleTextAttributes = [NSMutableDictionary dictionaryWithDictionary:@{NSForegroundColorAttributeName: titleColor}];
 		if ([options objectForKey:@"topBarTextFontFamily"]) {
 			[navigationBarTitleTextAttributes addEntriesFromDictionary:@{NSFontAttributeName: [UIFont fontWithName:options[@"topBarTextFontFamily"] size:20]}];
@@ -55,17 +54,17 @@
 	} else if ([options objectForKey:@"topBarTextFontFamily"]) {
 		self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:options[@"topBarTextFontFamily"] size:20]};
 	}
-	// topBarBackgroundColor
+	
 	if ([options objectForKey:@"topBarBackgroundColor"]) {
 		UIColor* backgroundColor =[RCTConvert UIColor:options[@"topBarBackgroundColor"]];
 		self.navigationController.navigationBar.barTintColor = backgroundColor;
 	}
-	// topBarButtonColor
+	
 	if ([options objectForKey:@"topBarButtonColor"]) {
 		UIColor* buttonColor = [RCTConvert UIColor:options[@"topBarButtonColor"]];
 		self.navigationController.navigationBar.tintColor = buttonColor;
 	}
-	// topBarHidden
+	
 	if ([options objectForKey:@"topBarHidden"]) {
 		if ([options[@"topBarHidden"] boolValue]) {
 			[self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -73,11 +72,11 @@
 			[self.navigationController setNavigationBarHidden:NO animated:YES];
 		}
 	};
-	// topBarTranslucent
+	
 	if ([options objectForKey:@"topBarTranslucent"]) {
 		if ([options[@"topBarTranslucent"] boolValue]) {
 			[self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-													  forBarMetrics:UIBarMetricsDefault];
+														  forBarMetrics:UIBarMetricsDefault];
 			self.navigationController.navigationBar.shadowImage = [UIImage new];
 			self.navigationController.navigationBar.translucent = YES;
 			self.navigationController.view.backgroundColor = [UIColor clearColor];
@@ -85,30 +84,29 @@
 			self.navigationController.navigationBar.translucent = NO;
 		}
 	}
-	// screenBackgroundColor
-	if ([options objectForKey:@"screenBackgroundColor"]) {
-		UIColor* screenColor = [RCTConvert UIColor:options[@"screenBackgroundColor"]];
-		self.view.backgroundColor = screenColor;
-	}
-	// topBarHideOnScroll
+	
 	if ([options objectForKey:@"topBarHideOnScroll"]){
 		NSNumber *topBarHideOnScroll = options[@"topBarHideOnScroll"];
 		BOOL topBarHideOnScrollBool = topBarHideOnScroll ? [topBarHideOnScroll boolValue] : NO;
 		if (topBarHideOnScrollBool) {
 			self.navigationController.hidesBarsOnSwipe = YES;
 		} else {
-		self.navigationController.hidesBarsOnSwipe = NO;
+			self.navigationController.hidesBarsOnSwipe = NO;
 		}
 	}
+}
+
+-(void)viewDidLoad
+{
+	[super viewDidLoad];
+	NSDictionary* options = self.nodeData[@"navigationOptions"];
+	[self topBarStyles:options];
 	
-	
-	
-	
-	// statusBarColorScheme
-	
-	
-	
-	
+	// screenBackgroundColor
+	if ([options objectForKey:@"screenBackgroundColor"]) {
+		UIColor* screenColor = [RCTConvert UIColor:options[@"screenBackgroundColor"]];
+		self.view.backgroundColor = screenColor;
+	}
 }
 
 -(void)viewWillAppear:(BOOL)animated{
