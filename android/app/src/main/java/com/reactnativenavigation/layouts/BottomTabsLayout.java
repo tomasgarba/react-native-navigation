@@ -416,6 +416,25 @@ public class BottomTabsLayout extends BaseLayout implements AHBottomNavigation.O
             return false;
         }
 
+        if (position == 2) {
+            // show LightBox
+            //LightBoxParams lbp = new LightBoxParamsParser(BundleConverter.toBundle(params)).parse();
+            LightBoxParams lbp = new LightBoxParams();
+            Bundle bundle = new Bundle();
+            bundle.putString("screenInstanceID", "screenInstanceID11");
+            bundle.putString("navigatorEventId", "screenInstanceID11_events");
+            bundle.putString("navigatorId", "controllerID10_nav");
+            NavigationParams params = new NavigationParams(bundle);
+
+            lbp.screenId = "doja.AddScreen";
+            lbp.navigationParams = params;
+            lbp.backgroundColor = new StyleParams.Color(1);
+            lbp.tapBackgroundToDismiss = false;
+
+            NavigationCommandsHandler.showLightBox(lbp);
+            return false;
+        }
+
         final int unselectedTabIndex = currentStackIndex;
         hideCurrentStack();
         showNewStack(position, NavigationType.BottomTabSelected);
