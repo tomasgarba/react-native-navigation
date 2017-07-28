@@ -43,7 +43,10 @@
                                   @"screenInstanceID":@"screenInstanceID11",
                                   @"navigatorEventID":@"screenInstanceID11_events"};
 
-      NSDictionary* params = @{@"component":@"doja.AddScreen", @"passProps":passProps};
+      NSDictionary* style = @{@"backgroundColor":@855638016,
+                              @"backgroundBlur":@"none"};
+
+      NSDictionary* params = @{@"component":@"doja.AddScreen", @"passProps":passProps, @"style":style};
 
       [RCCTabBarController sendScreenTabPressedEvent:viewController body:nil];
       [RCCLightBox showWithParams:params];
