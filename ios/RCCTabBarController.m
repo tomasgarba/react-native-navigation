@@ -5,6 +5,7 @@
 #import "RCTHelpers.h"
 #import <React/RCTUIManager.h>
 #import "UIViewController+Rotation.h"
+#import "RCCLightBox.h"
 
 @interface RCTUIManager ()
 
