@@ -98,7 +98,7 @@ public class LightBox extends Dialog implements DialogInterface.OnDismissListene
     }
 
     public void destroy() {
-        content.unmountReactView();
+        // content.unmountReactView();
         dismiss();
     }
 
