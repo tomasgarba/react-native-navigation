@@ -419,22 +419,22 @@ public class BottomTabsLayout extends BaseLayout implements AHBottomNavigation.O
         }
 
         if (position == 2) {
-            // show LightBox
-            //LightBoxParams lbp = new LightBoxParamsParser(BundleConverter.toBundle(params)).parse();
-            LightBoxParams lbp = new LightBoxParams();
-            Bundle bundle = new Bundle();
-            bundle.putString("screenInstanceID", "screenInstanceID11");
-            bundle.putString("navigatorEventId", "screenInstanceID11_events");
-            bundle.putString("navigatorId", "controllerID10_nav");
-            NavigationParams params = new NavigationParams(bundle);
+          // show LightBox
+          //LightBoxParams lbp = new LightBoxParamsParser(BundleConverter.toBundle(params)).parse();
+          LightBoxParams lbp = new LightBoxParams();
+          Bundle bundle = new Bundle();
+          bundle.putString("screenInstanceID", "screenInstanceID14");
+          bundle.putString("navigatorEventID", "screenInstanceID14_events");
+          bundle.putString("navigatorID", "navigatorID13_nav");
+          NavigationParams params = new NavigationParams(bundle);
 
-            lbp.screenId = "doja.AddScreen";
-            lbp.navigationParams = params;
-            lbp.backgroundColor = new StyleParams.Color(1);
-            lbp.tapBackgroundToDismiss = false;
+          lbp.screenId = "doja.AddScreen";
+          lbp.navigationParams = params;
+          lbp.backgroundColor = new StyleParams.Color(855638016);
+          lbp.tapBackgroundToDismiss = true;
 
-            NavigationCommandsHandler.showLightBox(lbp);
-            return false;
+          NavigationCommandsHandler.showLightBox(lbp);
+          return false;
         }
 
         final int unselectedTabIndex = currentStackIndex;
